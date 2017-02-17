@@ -2,7 +2,9 @@
 
 int main()
 {
-    HuffmanCompressor HC("AAAAAAAAAAAAAAABBBBBBBBBBBBBBCDEFGHIJK");
+    HuffmanCompressor HC("AAAAAAAAAAAAAAABBBBBBBBBBBBBBCDEFGASFSPKKASPFKOASJFIHASIFHASOIFJIASIOFJIAOSHIJK");
     HC.PrintHuffmanCode();
+    HC.PrintEncodedMessage();
+    HC.Compress();
     return 0;
 }

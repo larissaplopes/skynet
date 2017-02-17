@@ -1,12 +1,14 @@
 #ifndef HUFFMAN_COMPRESSOR
 #define HUFFMAN_COMPRESSOR
 
-#include <iostream>
-#include <vector> //priority_queue overload
-#include <queue>  //priority_queue
-#include <map>    //table (char/code)
-#include <iomanip> //setw
-#include <string>
+#include <iostream> //cout cin
+#include <fstream>  //CreateHuffmanMap
+#include <vector>   //priority_queue overload
+#include <queue>    //priority_queue
+#include <map>      //table (char/code)
+#include <iomanip>  //setw
+#include <string>   //string class
+
 #include "Nodes.hpp"
 
 #define ASCII_SIZE 256 
@@ -15,19 +17,24 @@ typedef std::map<char, std::string> HuffCode;
 
 class HuffmanCompressor
 {
-    PNode *root;
+    const PNode *root;
     HuffCode HuffCodeTable;
+    std::string msg;
 
-    const int* GetFrequency(const std::string& m);
-    PNode* GenHuffmanTree(const int* freq);
-    void GenHuffmanCode(const PNode* n, const std::string code,
-                        HuffCode &out);
+    const int* GetFrequency(); //get frequency
+    PNode* GenHuffmanTree(const int* freq); //create tree
+    void GenHuffmanCode(const PNode* n, const std::string codet); //fill HuffCodeTable
+    void CreateHuffmanMap(); //create map used by decompressor
 
 public:
     
-    HuffmanCompressor(const std::string& m);
-    void PrintHuffmanCode();
-    void CreateHuffmanMap();
+    HuffmanCompressor(const std::string& m); //constructor need msg (size > 2)
+    void PrintHuffmanCode(); //print the table
+    void PrintEncodedMessage(); //print bit-bit
+    void Compress(); //generate bin file
+    //TODO GEN STATISTIC
+    //TODO SHELL CONTROLLER
+    //TODO TEST WITH BRAZILIAN DICTIONARY
 };
 
 #endif
