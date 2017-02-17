@@ -7,7 +7,7 @@
 #define ASCII_SIZE 256 
 
 //Notes:
-//inheritance use cause overload operator() to create min_heap
+//inheritance (polimorfism) use cause overload operator() to create min_heap
 //use flag: std=c++11
 
 typedef std::map<char, std::string> HuffCode;
@@ -63,10 +63,10 @@ PNode* GenHuffmanTree(const int* freq)
 {
     std::priority_queue<PNode*, std::vector<PNode*>, min_heap> N; //nodes
 
-    for (int i = 0; i < ASCII_SIZE; i++) //leafs
+    for (int i = 0; i < ASCII_SIZE; i++) //leaf
         if (freq[i]) N.push(new LNode(freq[i], char(i)));
 
-    while (N.size() > 1) { //simples
+    while (N.size() > 1) { //simple
         PNode* r = N.top(); N.pop();
         PNode* l = N.top(); N.pop();
         N.push(new SNode(r, l));
