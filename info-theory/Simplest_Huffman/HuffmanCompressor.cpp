@@ -1,71 +1,52 @@
-#include <iostream>
-#include <vector> //priority_queue overload
-#include <queue>  //priority_queue
-#include <map>    //table (char/code)
-#include <iomanip> //setw
-#include <string>
-#include "Nodes.hpp"
+#include "HuffmanCompressor.hpp"
 
-#define ASCII_SIZE 256 
-
-typedef std::map<char, std::string> HuffCode;
-
-class HuffmanCompressor
+const int* HuffmanCompressor::GetFrequency(const std::string& m)
 {
-    PNode *root;
-    HuffCode HuffCodeTable;
+    int *F = new int[ASCII_SIZE]{0}; 
+    for (auto it = m.begin(); it != m.end(); it++) F[*it]++;
+    return F;
+}
 
-    const int* GetFrequency(const std::string& m)
-    {
-        int *F = new int[ASCII_SIZE]{0}; 
-        for (auto it = m.begin(); it != m.end(); it++) F[*it]++;
-        return F;
+PNode* HuffmanCompressor::GenHuffmanTree(const int* freq)
+{
+    std::priority_queue<PNode*, std::vector<PNode*>, min_heap> N; //nodes
+
+    for (int i = 0; i < ASCII_SIZE; i++) //leaf
+        if (freq[i]) N.push(new LNode(freq[i], char(i)));
+
+    while (N.size() > 1) { //simple
+        PNode* r = N.top(); N.pop();
+        PNode* l = N.top(); N.pop();
+        N.push(new SNode(r, l));
     }
 
-    PNode* GenHuffmanTree(const int* freq)
-    {
-        std::priority_queue<PNode*, std::vector<PNode*>, min_heap> N; //nodes
+    return N.top();
+}
 
-        for (int i = 0; i < ASCII_SIZE; i++) //leaf
-            if (freq[i]) N.push(new LNode(freq[i], char(i)));
-
-        while (N.size() > 1) { //simple
-            PNode* r = N.top(); N.pop();
-            PNode* l = N.top(); N.pop();
-            N.push(new SNode(r, l));
-        }
-
-        return N.top();
+void HuffmanCompressor::GenHuffmanCode(const PNode* n, const std::string code,
+                    HuffCode &out)
+{
+    if (const LNode* leaf = dynamic_cast<const LNode*>(n)) { //leaf node
+        out[leaf->c] = code;
+    } else if (const SNode* simple = dynamic_cast<const SNode*>(n)) { //simple node
+        GenHuffmanCode(simple->left, code + '0', out);
+        GenHuffmanCode(simple->right, code + '1', out);
+    } else {
+        return; 
     }
+}
 
-    void GenHuffmanCode(const PNode* n, const std::string code,
-                        HuffCode &out)
-    {
-        if (const LNode* leaf = dynamic_cast<const LNode*>(n)) { //leaf node
-            out[leaf->c] = code;
-        } else if (const SNode* simple = dynamic_cast<const SNode*>(n)) { //simple node
-            GenHuffmanCode(simple->left, code + '0', out);
-            GenHuffmanCode(simple->right, code + '1', out);
-        } else {
-            return; 
-        }
-    }
+HuffmanCompressor::HuffmanCompressor(const std::string& m)
+{
+    const int *f = GetFrequency(m);
+    this->root = GenHuffmanTree(f);
+    GenHuffmanCode(this->root, "", HuffCodeTable);
+}    
 
-public:
-    
-    HuffmanCompressor(const std::string& m)
-    {
-        const int *f = GetFrequency(m);
-        this->root = GenHuffmanTree(f);
-        GenHuffmanCode(this->root, "", HuffCodeTable);
-    }    
+void HuffmanCompressor::PrintHuffmanCode()
+{
+    for (auto it : HuffCodeTable) 
+        std::cout << it.first << " " << std::setw(10) << it.second << std::endl;
+}
 
-    void PrintHuffmanCode()
-    {
-        for (auto it : HuffCodeTable) 
-            std::cout << it.first << " " << std::setw(10) << it.second << std::endl;
-    }
-
-    void CreateHuffmanMap(){}
-};
-
+void HuffmanCompressor::CreateHuffmanMap(){}
