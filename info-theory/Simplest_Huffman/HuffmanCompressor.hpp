@@ -35,15 +35,10 @@ public:
     void Compress(); //generate bin file
     void PrintStatistics();
     //TODO GEN STATISTIC
-    //msg size
-    //huffman map size
-    //encoded msg size
-    //info total -(sum log2(pbi)) pbi = nbi / n, 
-    //entropia , entropia / caractere
-    //dados do huffman: comprimento medio e info por bit
-    //prob (menor prob -> maior surpresa -> maior info))
     //TODO SHELL CONTROLLER
     //TODO TEST WITH BRAZILIAN DICTIONARY
+    //TODO DECOMPRESSOR
+    //TODO ADAPTATIVE
 };
 
 #endif
