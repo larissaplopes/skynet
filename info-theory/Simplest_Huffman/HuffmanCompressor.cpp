@@ -45,6 +45,12 @@ void HuffmanCompressor::CreateHuffmanMap()
     out.close();
 }
 
+std::ifstream::pos_type HuffmanCompressor::FileSize(const char* filename)
+{
+    std::ifstream in(filename, std::ifstream::ate | std::ifstream::binary);
+    return in.tellg(); 
+}
+
 HuffmanCompressor::HuffmanCompressor(const std::string& m)
 {
      if(m.size() < 2) {
@@ -97,4 +103,42 @@ void HuffmanCompressor::Compress()
         }
         bin << bin_buffer;
     }    
+}
+
+void HuffmanCompressor::PrintStatistics()
+{
+    std::cout << "-------------------------------------------------------" << std::endl;
+    std::cout << "| Message            size: " << msg.size() << " bytes." << std::endl;
+    std::cout << "| Huffman    Map     size: " << FileSize("Huffman.map") << " bytes." << std::endl; 
+    std::cout << "| Compressed Message size: " << FileSize("compressed.bin") << " bytes." << std::endl;
+    std::cout << "| Economy                : " << (int)msg.size() - FileSize("Huffman.map") - FileSize("compressed.bin") << " bytes." << std::endl;
+    std::cout << "| Compress         Reason: " << (double)(FileSize("Huffman.map") + FileSize("compressed.bin")) / msg.size() << "." << std::endl;
+    std::cout << "|------------------------------------------------------" << std::endl;
+
+    double total_info = 0;
+    int total_huff_bits = 0;
+    const int* freq = GetFrequency();
+
+    std::cout << "| Symbol Frequency Probability Information HuffmanPerf" << std::endl;
+    for (int i = 0; i < 256; i++) {
+        if (freq[i]) {
+            if ( i > 31) printf("| %c     ", (char) i);
+            else printf("| %2d    ", i);
+            printf("%8d     %1.5lf     %3.5lf  %6d\n",
+                      freq[i],        
+                      (double)freq[i]/msg.size(),
+                      std::log2((double)msg.size()/freq[i]),      
+                      (int)HuffCodeTable[i].size());
+
+            total_info += freq[i] * std::log2((double)msg.size()/freq[i]);
+        }
+        total_huff_bits += freq[i] * HuffCodeTable[i].size();
+    }
+
+    std::cout << "|------------------------------------------------------" << std::endl;
+    std::cout << "| Total       Information: " << total_info << " bits." << std::endl;
+    std::cout << "| Entropy                : " << total_info / msg.size() << " bits/char." <<  std::endl;
+    std::cout << "| Huffman     Performance: " << total_huff_bits  << " bits." << std::endl;
+    std::cout << "| Huffman  Perf  by  char: " << (double)total_huff_bits / msg.size() << " bits." << std::endl;
+    std::cout << "-------------------------------------------------------" << std::endl;
 }
