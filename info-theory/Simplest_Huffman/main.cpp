@@ -1,4 +1,5 @@
 #include "HuffmanCompressor.cpp"
+#include "HuffmanDecompressor.cpp"
 
 int main(int argc, char *argv[])
 {
@@ -10,6 +11,7 @@ int main(int argc, char *argv[])
     //HC.PrintHuffmanCode();
     //HC.PrintEncodedMessage();
     HC.Compress();
-    HC.PrintStatistics();
+    //HC.PrintStatistics();
+    HuffmanDecompressor HD("./compressed.bin");
     return 0;
 }

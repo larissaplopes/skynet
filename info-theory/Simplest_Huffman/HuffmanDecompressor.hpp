@@ -1,35 +1,25 @@
-#ifndef HUFFMAN_COMPRESSOR
-#define HUFFMAN_COMPRESSOR
+#ifndef HUFFMAN_DECOMPRESSOR
+#define HUFFMAN_DECOMPRESSOR
 
 #include <iostream> //cout cin
 #include <fstream>  //CreateHuffmanMap
-#include <vector>   //priority_queue overload
-#include <queue>    //priority_queue
 #include <map>      //table (char/code)
-#include <iomanip>  //setw
+#include <iomanip>  //setw setprecision
 #include <string>   //string class
-
-#include "Nodes.hpp"
 
 #define ASCII_SIZE 256 
 
-typedef std::map<char, std::string> HuffCode;
+typedef std::map<std::string, char> HuffDeCode;
 
-class HuffmanCompressor
+class HuffmanDecompressor
 {
-    PNode *root;
-    HuffCode HuffCodeTable;
-
-    const int* GetFrequency(const std::string& m);
-    PNode* GenHuffmanTree(const int* freq);
-    void GenHuffmanCode(const PNode* n, const std::string code,
-                        HuffCode &out);
-
+    int totalSymbols;
+    HuffDeCode HuffDeCodeTable;
+    void FillHuffmanMap();
+    std::ifstream::pos_type FileSize(const char* filename);
 public:
-    
-    HuffmanDeCompressor(const std::string& m);
-    void PrintHuffmanCode();
-    void CreateHuffmanMap();
+    HuffmanDecompressor(const char* m); 
+    void PrintHuffmanCode(); 
 };
 
 #endif

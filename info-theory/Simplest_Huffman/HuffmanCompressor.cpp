@@ -41,7 +41,8 @@ void HuffmanCompressor::CreateHuffmanMap()
     std::ofstream out("Huffman.map", std::ofstream::out);
     out << msg.size() << std::endl; //Partial solution cause we can't write bits
     for (auto it : HuffCodeTable) 
-        out << it.first << " " << std::setw(10) << it.second << std::endl;
+        out << (int)it.first << " " << std::setw(30) << it.second << std::endl;
+    
     out.close();
 }
 
@@ -91,18 +92,16 @@ void HuffmanCompressor::Compress()
 
     std::string msg_enc; //message encoded
     for (auto it : msg) msg_enc+=HuffCodeTable[it];
-
     std::ofstream bin("compressed.bin", std::ios::out | std::ios::binary);
 
     while (msg_enc.size() % 8 != 0) msg_enc += "0";
     char bin_buffer;
     for (int i = 0; i < msg_enc.size(); i+=8) {
-        for (int j = 0; j < 8; j++) {
-            bin_buffer |= (msg_enc[i+j] ? 1 : 0);
-            bin_buffer << 1;
-        }
-        bin << bin_buffer;
-    }    
+        bin_buffer &= 0;
+        for (int j = 0; j < 8; j++) 
+            bin_buffer |= (msg_enc[i+j] == '1' ? 1 << (7-j) : 0);
+         bin << bin_buffer;
+    }
 }
 
 void HuffmanCompressor::PrintStatistics()

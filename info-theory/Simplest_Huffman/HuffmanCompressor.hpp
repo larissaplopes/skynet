@@ -26,7 +26,7 @@ class HuffmanCompressor
     PNode* GenHuffmanTree(const int* freq); //create tree
     void GenHuffmanCode(const PNode* n, const std::string codet); //fill HuffCodeTable
     void CreateHuffmanMap(); //create map used by decompressor
-    std::ifstream::pos_type FileSize(const char *filename);
+    std::ifstream::pos_type FileSize(const char* filename);
 public:
     
     HuffmanCompressor(const std::string& m); //constructor need msg (size > 2)
@@ -34,11 +34,8 @@ public:
     void PrintEncodedMessage(); //print bit-bit
     void Compress(); //generate bin file
     void PrintStatistics();
-    //TODO GEN STATISTIC
     //TODO SHELL CONTROLLER
-    //TODO TEST WITH BRAZILIAN DICTIONARY
-    //TODO DECOMPRESSOR
-    //TODO ADAPTATIVE
+    //TODO ADAPTATIVE HUFFMANS
 };
 
 #endif
