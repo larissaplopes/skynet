@@ -3,15 +3,17 @@
 
 int main(int argc, char *argv[])
 {
-    std::string in, txt;
-    while(std::getline(std::cin, in))
-        txt += in+'\n';
 
-    HuffmanCompressor HC(txt);
-    //HC.PrintHuffmanCode();
-    //HC.PrintEncodedMessage();
-    HC.Compress();
-    //HC.PrintStatistics();
-    HuffmanDecompressor HD("./compressed.bin");
+    //try {
+        HuffmanCompressor HC(argv[1]);
+        //HC.PrintHuffmanCode();
+        //HC.PrintEncodedMessage();
+        HC.Compress();
+        HC.PrintStatistics();
+        HuffmanDecompressor HD("./compressed.bin");
+    /*} catch (const std::exception& e) {
+        std::cout << e.what() << std::endl;
+    }*/
+    
     return 0;
 }

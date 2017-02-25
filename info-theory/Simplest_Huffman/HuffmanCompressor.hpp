@@ -20,7 +20,8 @@ class HuffmanCompressor
 {
     const PNode *root;
     HuffCode HuffCodeTable;
-    std::string msg;
+    char *msg;
+    int msgSize;
 
     const int* GetFrequency(); //get frequency
     PNode* GenHuffmanTree(const int* freq); //create tree
@@ -29,13 +30,11 @@ class HuffmanCompressor
     std::ifstream::pos_type FileSize(const char* filename);
 public:
     
-    HuffmanCompressor(const std::string& m); //constructor need msg (size > 2)
+    HuffmanCompressor(const char* filename); //constructor need msg (size > 2)
     void PrintHuffmanCode(); //print the table
     void PrintEncodedMessage(); //print bit-bit
     void Compress(); //generate bin file
     void PrintStatistics();
-    //TODO SHELL CONTROLLER
-    //TODO ADAPTATIVE HUFFMANS
 };
 
 #endif

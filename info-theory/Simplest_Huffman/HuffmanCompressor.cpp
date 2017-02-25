@@ -3,7 +3,7 @@
 const int* HuffmanCompressor::GetFrequency()
 {
     int *F = new int[ASCII_SIZE]{0}; 
-    for (auto it : msg) F[it]++;
+    for (int i = 0; i < msgSize; i++) F[msg[i]]++;
     return F;
 }
 
@@ -39,9 +39,9 @@ void HuffmanCompressor::GenHuffmanCode(const PNode* n, const std::string code)
 void HuffmanCompressor::CreateHuffmanMap()
 {
     std::ofstream out("Huffman.map", std::ofstream::out);
-    out << msg.size() << std::endl; //Partial solution cause we can't write bits
+    out << msgSize << std::endl; //Partial solution cause we can't write bits
     for (auto it : HuffCodeTable) 
-        out << (int)it.first << " " << std::setw(30) << it.second << std::endl;
+        out << std::setw(3) << (int)it.first << " " << std::setw(30) << it.second << std::endl;
     
     out.close();
 }
@@ -52,13 +52,15 @@ std::ifstream::pos_type HuffmanCompressor::FileSize(const char* filename)
     return in.tellg(); 
 }
 
-HuffmanCompressor::HuffmanCompressor(const std::string& m)
+HuffmanCompressor::HuffmanCompressor(const char* filename)
 {
-     if(m.size() < 2) {
-        std::cout << "There is nothing to compress" << std::endl;
-        return;
-    }
-    msg = m;
+    std::ifstream input(filename, std::fstream::in | std::fstream::binary);
+
+    msgSize = HuffmanCompressor::FileSize(filename);
+    msg = new char[msgSize];
+
+    input.read(msg, msgSize);
+
     const int *f = GetFrequency();
     this->root = GenHuffmanTree(f);
     GenHuffmanCode(this->root, "");
@@ -67,15 +69,15 @@ HuffmanCompressor::HuffmanCompressor(const std::string& m)
 void HuffmanCompressor::PrintHuffmanCode()
 {
     for (auto it : HuffCodeTable) 
-        std::cout << it.first << " " << std::setw(10) << it.second << std::endl;
+        std::cout << it.first  << " " << std::setw(10) << it.second << std::endl;
 }
 
 void HuffmanCompressor::PrintEncodedMessage()
 {
     int bits = 0;
-    for (auto it : msg) {
-        std::cout << HuffCodeTable[it];
-        bits += HuffCodeTable[it].size();
+    for (int i = 0; i < msgSize; i++) {
+        std::cout << HuffCodeTable[msg[i]];
+        bits += HuffCodeTable[msg[i]].size();
     }
     std::cout << std::endl;
     std::cout << bits << " bits, " << bits/8 + (bits%8 ? 1 : 0) << " bytes" << std::endl;
@@ -91,7 +93,7 @@ void HuffmanCompressor::Compress()
     this->CreateHuffmanMap();
 
     std::string msg_enc; //message encoded
-    for (auto it : msg) msg_enc+=HuffCodeTable[it];
+    for (int i = 0; i < msgSize; i++) msg_enc+=HuffCodeTable[msg[i]];
     std::ofstream bin("compressed.bin", std::ios::out | std::ios::binary);
 
     while (msg_enc.size() % 8 != 0) msg_enc += "0";
@@ -107,11 +109,11 @@ void HuffmanCompressor::Compress()
 void HuffmanCompressor::PrintStatistics()
 {
     std::cout << "-------------------------------------------------------" << std::endl;
-    std::cout << "| Message            size: " << msg.size() << " bytes." << std::endl;
+    std::cout << "| Message            size: " << msgSize << " bytes." << std::endl;
     std::cout << "| Huffman    Map     size: " << FileSize("Huffman.map") << " bytes." << std::endl; 
     std::cout << "| Compressed Message size: " << FileSize("compressed.bin") << " bytes." << std::endl;
-    std::cout << "| Economy                : " << (int)msg.size() - FileSize("Huffman.map") - FileSize("compressed.bin") << " bytes." << std::endl;
-    std::cout << "| Compress         Reason: " << (double)(FileSize("Huffman.map") + FileSize("compressed.bin")) / msg.size() << "." << std::endl;
+    std::cout << "| Economy                : " << (int)msgSize - FileSize("Huffman.map") - FileSize("compressed.bin") << " bytes." << std::endl;
+    std::cout << "| Compress         Reason: " << (double)(FileSize("Huffman.map") + FileSize("compressed.bin")) / msgSize << "." << std::endl;
     std::cout << "|------------------------------------------------------" << std::endl;
 
     double total_info = 0;
@@ -125,19 +127,19 @@ void HuffmanCompressor::PrintStatistics()
             else printf("| %2d    ", i);
             printf("%8d     %1.5lf     %3.5lf  %6d\n",
                       freq[i],        
-                      (double)freq[i]/msg.size(),
-                      std::log2((double)msg.size()/freq[i]),      
+                      (double)freq[i]/msgSize,
+                      std::log2((double)msgSize/freq[i]),      
                       (int)HuffCodeTable[i].size());
 
-            total_info += freq[i] * std::log2((double)msg.size()/freq[i]);
+            total_info += freq[i] * std::log2((double)msgSize/freq[i]);
         }
         total_huff_bits += freq[i] * HuffCodeTable[i].size();
     }
 
     std::cout << "|------------------------------------------------------" << std::endl;
     std::cout << "| Total       Information: " << total_info << " bits." << std::endl;
-    std::cout << "| Entropy                : " << total_info / msg.size() << " bits/char." <<  std::endl;
+    std::cout << "| Entropy                : " << total_info / msgSize << " bits/char." <<  std::endl;
     std::cout << "| Huffman     Performance: " << total_huff_bits  << " bits." << std::endl;
-    std::cout << "| Huffman  Perf  by  char: " << (double)total_huff_bits / msg.size() << " bits." << std::endl;
+    std::cout << "| Huffman  Perf  by  char: " << (double)total_huff_bits / msgSize << " bits." << std::endl;
     std::cout << "-------------------------------------------------------" << std::endl;
 }
