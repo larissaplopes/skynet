@@ -10,11 +10,12 @@
 #include <string>   //string class
 #include <cmath>    //log2
 #include <cstdio>   //printf
+#include <cstdint>  //uint8_t type
 #include "Nodes.hpp"
 
-#define ASCII_SIZE 512 
+#define BYTE_SIZE 1 << 8 
 
-typedef std::map<char, std::string> HuffCode;
+typedef std::map<uint8_t, std::string> HuffCode;
 
 class HuffmanCompressor
 {

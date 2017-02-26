@@ -1,5 +1,4 @@
 #include "HuffmanDecompressor.hpp"
-#include <bitset>
 
 void HuffmanDecompressor::FillHuffmanMap()
 {
@@ -22,8 +21,8 @@ HuffmanDecompressor::HuffmanDecompressor(const char* m)
 {
     file = m;
     FillHuffmanMap();
-    std::ifstream input(file+".compress", std::fstream::in | std::fstream::binary);
-    std::ofstream output(file+".decompress", std::fstream::out);
+    std::ifstream input(file+".compress", std::fstream::binary);
+    std::ofstream output(file+".decompress", std::fstream::binary);
 
     char c;
     int count = 0;

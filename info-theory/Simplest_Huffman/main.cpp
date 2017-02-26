@@ -4,7 +4,6 @@
 //making tests
 //TODO:
 //solve 1 symbol problem
-//generalize inputs
 //shellcontrole
 
 int main(int argc, char *argv[])

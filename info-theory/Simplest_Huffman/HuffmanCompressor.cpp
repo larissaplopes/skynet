@@ -2,8 +2,8 @@
 
 const int* HuffmanCompressor::GetFrequency()
 {
-    int *F = new int[ASCII_SIZE]{0}; 
-    for (int i = 0; i < msgSize; i++) F[msg[i]]++;
+    int *F = new int[BYTE_SIZE]{0}; 
+    for (int i = 0; i < msgSize; i++) F[(uint8_t)msg[i]]++;
     return F;
 }
 
@@ -11,7 +11,7 @@ PNode* HuffmanCompressor::GenHuffmanTree(const int* freq)
 {
     std::priority_queue<PNode*, std::vector<PNode*>, min_heap> N; //nodes
 
-    for (int i = 0; i < ASCII_SIZE; i++) //leaf
+    for (int i = 0; i < BYTE_SIZE; i++) //leaf
         if (freq[i]) N.push(new LNode(freq[i], char(i)));
 
     while (N.size() > 1) { //simple
@@ -129,11 +129,10 @@ void HuffmanCompressor::PrintStatistics()
     const int* freq = GetFrequency();
 
     std::cout << "| Symbol Frequency Probability Information HuffmanPerf" << std::endl;
-    for (int i = 0; i < ASCII_SIZE; i++) {
+    for (int i = 0; i < BYTE_SIZE; i++) {
         if (freq[i]) {
-            if ( i > 31) printf("| %c     ", (char) i);
-            else printf("| %2d    ", i);
-            printf("%8d     %1.5lf     %3.5lf  %6d\n",
+            printf("| %3d    %8d     %1.5lf     %3.5lf  %6d\n", 
+                      i,
                       freq[i],        
                       (double)freq[i]/msgSize,
                       std::log2((double)msgSize/freq[i]),      
