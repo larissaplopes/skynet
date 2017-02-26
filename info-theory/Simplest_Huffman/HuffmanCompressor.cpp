@@ -56,6 +56,7 @@ HuffmanCompressor::HuffmanCompressor(const char* filename)
 {
     std::ifstream input(filename, std::fstream::in | std::fstream::binary);
 
+    file = filename;
     msgSize = HuffmanCompressor::FileSize(filename);
     msg = new char[msgSize];
 
@@ -94,7 +95,8 @@ void HuffmanCompressor::Compress()
 
     std::string msg_enc; //message encoded
     for (int i = 0; i < msgSize; i++) msg_enc+=HuffCodeTable[msg[i]];
-    std::ofstream bin("compressed.bin", std::ios::out | std::ios::binary);
+
+    std::ofstream bin(file+".compress", std::ios::out | std::ios::binary);
 
     while (msg_enc.size() % 8 != 0) msg_enc += "0";
     char bin_buffer;

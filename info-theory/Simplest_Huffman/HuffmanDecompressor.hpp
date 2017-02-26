@@ -13,6 +13,7 @@ typedef std::map<std::string, char> HuffDeCode;
 
 class HuffmanDecompressor
 {
+    std::string file;
     int totalSymbols;
     HuffDeCode HuffDeCodeTable;
     void FillHuffmanMap();

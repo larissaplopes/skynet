@@ -1,19 +1,23 @@
 #include "HuffmanCompressor.cpp"
 #include "HuffmanDecompressor.cpp"
 
+//making tests
+//solve 1 symbol problem
+//generalize inputs
+
 int main(int argc, char *argv[])
 {
-
-    //try {
+    try {
         HuffmanCompressor HC(argv[1]);
         //HC.PrintHuffmanCode();
         //HC.PrintEncodedMessage();
         HC.Compress();
         HC.PrintStatistics();
-        HuffmanDecompressor HD("./compressed.bin");
-    /*} catch (const std::exception& e) {
-        std::cout << e.what() << std::endl;
-    }*/
+
+        HuffmanDecompressor HD(argv[1]); 
+    } catch (const std::exception& e) {
+        std::cout << "Exception: " << e.what() << std::endl;
+    }
     
     return 0;
 }

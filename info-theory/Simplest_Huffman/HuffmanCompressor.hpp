@@ -18,9 +18,10 @@ typedef std::map<char, std::string> HuffCode;
 
 class HuffmanCompressor
 {
-    const PNode *root;
+    const PNode* root;
     HuffCode HuffCodeTable;
-    char *msg;
+    std::string file;
+    char* msg;
     int msgSize;
 
     const int* GetFrequency(); //get frequency
@@ -30,7 +31,7 @@ class HuffmanCompressor
     std::ifstream::pos_type FileSize(const char* filename);
 public:
     
-    HuffmanCompressor(const char* filename); //constructor need msg (size > 2)
+    HuffmanCompressor(const char* filename); //constructor need file
     void PrintHuffmanCode(); //print the table
     void PrintEncodedMessage(); //print bit-bit
     void Compress(); //generate bin file

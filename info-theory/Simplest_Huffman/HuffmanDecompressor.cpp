@@ -20,11 +20,13 @@ std::ifstream::pos_type HuffmanDecompressor::FileSize(const char* filename)
 
 HuffmanDecompressor::HuffmanDecompressor(const char* m)
 {
+    file = m;
     FillHuffmanMap();
-    std::ifstream input(m, std::fstream::in | std::fstream::binary);
-    std::ofstream output("decompressed.txt", std::fstream::out);
+    std::ifstream input(file+".compress", std::fstream::in | std::fstream::binary);
+    std::ofstream output(file+".decompress", std::fstream::out);
 
     char c;
+    int count = 0;
     std::string tmp;
 
     while (input.read((char*)&c, sizeof(char))) 
@@ -33,6 +35,9 @@ HuffmanDecompressor::HuffmanDecompressor(const char* m)
             if (HuffDeCodeTable.find(tmp) != HuffDeCodeTable.end()) {
                 output << HuffDeCodeTable[tmp];
                 tmp.clear();
+                count++;
+                if(count == this->totalSymbols) 
+                    break;
             }
         }
 }  
