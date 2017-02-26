@@ -12,7 +12,7 @@
 #include <cstdio>   //printf
 #include "Nodes.hpp"
 
-#define ASCII_SIZE 256 
+#define ASCII_SIZE 512 
 
 typedef std::map<char, std::string> HuffCode;
 
@@ -29,6 +29,7 @@ class HuffmanCompressor
     void GenHuffmanCode(const PNode* n, const std::string codet); //fill HuffCodeTable
     void CreateHuffmanMap(); //create map used by decompressor
     std::ifstream::pos_type FileSize(const char* filename);
+    std::ifstream::pos_type FileSize(std::string filename);
 public:
     
     HuffmanCompressor(const char* filename); //constructor need file

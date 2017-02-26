@@ -7,8 +7,6 @@
 #include <iomanip>  //setw setprecision
 #include <string>   //string class
 
-#define ASCII_SIZE 256 
-
 typedef std::map<std::string, char> HuffDeCode;
 
 class HuffmanDecompressor
