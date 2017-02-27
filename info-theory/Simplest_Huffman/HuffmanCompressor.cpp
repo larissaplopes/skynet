@@ -27,7 +27,7 @@ void HuffmanCompressor::GenHuffmanCode(const PNode* n, const std::string code)
 {
     //dynamic comparison (similar to instanceof operator java)
     if (const LNode* leaf = dynamic_cast<const LNode*>(n)) { //leaf node
-        HuffCodeTable[leaf->c] = code;
+        HuffCodeTable[leaf->c] = code.empty() ? "0" : code; //solve 1 symbol
     } else if (const SNode* simple = dynamic_cast<const SNode*>(n)) { //simple node
         GenHuffmanCode(simple->left, code + '0');
         GenHuffmanCode(simple->right, code + '1');
