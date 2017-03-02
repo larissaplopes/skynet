@@ -9,11 +9,10 @@ int main(int argc, char *argv[])
     else {
         try {
             HuffmanCompressor HC(argv[1]);
-            //HC.PrintHuffmanCode();
-            HC.PrintEncodedMessage();
-            HC.PrintStatistics();
+            //HC.PrintEncodedMessage();
             HC.Compress();
-            HuffmanDecompressor HD(argv[1]); 
+            HC.PrintStatistics();
+            //HuffmanDecompressor HD(argv[1]); 
         } catch (const std::exception& e) {
             std::cout << "Exception: " << e.what() << std::endl;
         }
