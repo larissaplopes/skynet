@@ -1,8 +1,6 @@
 #include "HuffmanCompressor.cpp"
 #include "HuffmanDecompressor.cpp"
 
-//making tests
-
 int main(int argc, char *argv[])
 {
     if (argc < 2) std::cout << "Need filepath!" << std::endl;
@@ -11,8 +9,9 @@ int main(int argc, char *argv[])
             HuffmanCompressor HC(argv[1]);
             //HC.PrintEncodedMessage();
             HC.Compress();
+
             HC.PrintStatistics();
-            //HuffmanDecompressor HD(argv[1]); 
+            HuffmanDecompressor HD(argv[1]); 
         } catch (const std::exception& e) {
             std::cout << "Exception: " << e.what() << std::endl;
         }

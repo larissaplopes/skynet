@@ -30,9 +30,9 @@ class HuffmanCompressor
     double total_info;
 
     int* GetFrequency(); //get frequency
-    PNode* GenHuffmanTree(const int* freq); //create tree
+    PNode* GenHuffmanTree(); //create tree
     void GenHuffmanCode(const PNode* n, const std::string codet); //fill HuffCodeTable
-    void CreateHuffmanMap(); //create map used by decompressor
+    void CreateHuffmanFreq(); //create freq used by decompressor
     std::ifstream::pos_type FileSize(const char* filename);
     std::ifstream::pos_type FileSize(std::string filename);
 public:
