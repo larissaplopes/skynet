@@ -77,7 +77,6 @@ HuffmanCompressor::HuffmanCompressor(const char* filename)
         GenHuffmanCode(this->root, "");
         if (i == 0) 
             this->CreateHuffmanFreq(); //we need first values
-        
         total_info += std::log2((double)(msgSize-i)/f[(uint8_t)msg[i]]);
         msgComp+=HuffCodeTable[msg[i]];
         this->f[(uint8_t)msg[i]]--;

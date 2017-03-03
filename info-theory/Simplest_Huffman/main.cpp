@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
         try {
             HuffmanCompressor HC(argv[1]);
             //HC.PrintHuffmanCode();
-            HC.PrintEncodedMessage();
+            //HC.PrintEncodedMessage();
             HC.PrintStatistics();
             HC.Compress();
             HuffmanDecompressor HD(argv[1]); 
