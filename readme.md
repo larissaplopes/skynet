@@ -8,6 +8,7 @@ some codes about
     - Huffman_ANCDec(IMPROVED): Change huffman tree with sqrt(n) steps.
     - Huffman_SACO1: Huffman semi-adaptive, contextual, order 1.
     - BWT: Burrows-Wheeler-Transform (and inverse) - working but can be improve
+    - MTF: Simplest Move to Front algorithm using Lists 
 
 ### network
 
