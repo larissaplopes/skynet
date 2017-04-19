@@ -7,6 +7,7 @@ some codes about
     - Huffman_ANCDec: Huffman variation (Adaptive, Non-contextual, Decrement). 
     - Huffman_ANCDec(IMPROVED): Change huffman tree with sqrt(n) steps.
     - Huffman_SACO1: Huffman semi-adaptive, contextual, order 1.
+    - BWT: Burrows-Wheeler-Transform (and inverse) - working but can be improve
 
 ### network
 
