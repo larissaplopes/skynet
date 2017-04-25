@@ -9,6 +9,7 @@ some codes about
     - Huffman_SACO1: Huffman semi-adaptive, contextual, order 1.
     - BWT: Burrows-Wheeler-Transform (and inverse) - working but can be improve
     - MTF: Simplest Move to Front algorithm using Lists 
+    - PPMC_Arithmetic: Implementation by bob-carpenter (original: github.com/bob-carpenter/java-arithcode)
 
 ### network
 
